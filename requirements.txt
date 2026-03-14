@@ -1,0 +1,10 @@
+python-telegram-bot==21.10
+discord.py>=2.3.0
+strands-agents==0.1.5
+strands-agents-tools==0.1.1
+openai>=1.0.0
+fastmcp==3.0.2
+sqlalchemy==2.0.36
+psycopg2-binary==2.9.10
+pydantic-settings==2.7.1
+python-dotenv>=1.1.0
