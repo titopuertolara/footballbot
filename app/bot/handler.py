@@ -66,6 +66,9 @@ def _extract_tool_metadata(messages: list) -> dict | None:
                 # Player accepted → notify player
                 if data.get("player_added") is not True and data.get("player_platform_user_id") and data.get("spots_remaining") is not None:
                     metadata["accepted_player"] = data
+                # Player rejected → notify player
+                if data.get("player_platform_user_id") and data.get("request_id") and data.get("spots_remaining") is None:
+                    metadata["rejected_player"] = data
     return metadata if metadata else None
 
 
