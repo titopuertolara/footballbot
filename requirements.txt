@@ -1,7 +1,7 @@
 python-telegram-bot==21.10
 discord.py>=2.3.0
-strands-agents==0.1.5
-strands-agents-tools==0.1.1
+strands-agents>=1.30.0
+strands-agents-tools>=0.1.1
 openai>=1.0.0
 fastmcp==3.0.2
 pydantic-settings==2.7.1
