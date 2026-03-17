@@ -1,6 +1,9 @@
 import logging
+import os
 import signal
 import sys
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
 from app.bot import handler
 from app.config import settings
@@ -22,9 +25,28 @@ def shutdown(signum, frame):
     sys.exit(0)
 
 
+class _HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"ok")
+
+    def log_message(self, format, *args):
+        pass  # suppress request logs
+
+
+def _start_health_server():
+    port = int(os.environ.get("PORT", 10000))
+    server = HTTPServer(("0.0.0.0", port), _HealthHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    logger.info(f"Health server listening on port {port}")
+
+
 def main():
     signal.signal(signal.SIGINT, shutdown)
     signal.signal(signal.SIGTERM, shutdown)
+    _start_health_server()
 
     platform = settings.platform.lower()
     logger.info(f"Starting FootballBot on {platform}...")
